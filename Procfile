@@ -1,2 +1,2 @@
-web: gunicorn welcome.py
+web: gunicorn app:app
 
