@@ -1,6 +1,7 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template, redirect, url_for
 
 app = Flask(__name__)
+NAME = 'luke'
 
 @app.route('/getmsg/', methods=['GET'])
 def respond():
@@ -41,10 +42,21 @@ def post_something():
             "ERROR": "no name found, please send a name."
         })
 
+@app.route('/hello/')
+def h():
+    return '<h1> Hello </h1>'
+
 # A welcome message to test our server
 @app.route('/')
 def index():
-    return "<h1>Welcome to our server !!</h1>"
+    return render_template('my-form.html')
+
+@app.route('/', methods = ['POST'])
+def my_form_post():
+    text = request.form['text']
+    preocessed_text = text.upper()
+    url = '/getmsg/?name={}'.format(preocessed_text)
+    return redirect(url)
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
